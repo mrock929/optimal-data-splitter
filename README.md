@@ -88,7 +88,7 @@ values would be below the floor, but with 5000 iterations there are 10-20 values
 to produce a good data split. The black symbols were the iterations used for the final split.
 
 ### Results plot
-![](./results.png)
+![](./results_5000.png)
 
 This plot shows the percentage of data within each portion of the split for each features (f1-f6 in this example).
 This is the results from a 5000 iteration split. The data is fairly well balanced between train, validation, and test 
