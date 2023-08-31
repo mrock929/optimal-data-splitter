@@ -78,23 +78,23 @@ out = terminus.split_data()
 out.head()
 ```
 ### Sample output
-![](C:\projects\terminus_scratch\sample_out.png)
+![](./sample_out.png)
 
 ### L2 plot
-![](./l2_results.png)
+![](./l2_results_example.png)
 
 Note the somewhat distinct floor in both data splits just below 0.1. If only 1000 iterations were used, only a few 
 values would be below the floor, but with 5000 iterations there are 10-20 values below the floor. This is more likely 
 to produce a good data split. The black symbols were the iterations used for the final split.
 
 ### Results plot
-![](C:\projects\terminus_scratch\results.png)
+![](./results.png)
 
 This plot shows the percentage of data within each portion of the split for each features (f1-f6 in this example).
 This is the results from a 5000 iteration split. The data is fairly well balanced between train, validation, and test 
 with a roughly 80/10/10 distribution across all features.
 
-![](C:\projects\terminus\results_1.png)
+![](./results_1.png)
 
 If a random split was performed using the same data as above, this is the result for random_state = 1. Note how poorly 
 distributed some of the features are.
