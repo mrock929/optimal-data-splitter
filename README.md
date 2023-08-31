@@ -81,7 +81,7 @@ out.head()
 ![](C:\projects\terminus_scratch\sample_out.png)
 
 ### L2 plot
-![](C:\projects\terminus_scratch\l2_results.png)
+![](./l2_results.png)
 
 Note the somewhat distinct floor in both data splits just below 0.1. If only 1000 iterations were used, only a few 
 values would be below the floor, but with 5000 iterations there are 10-20 values below the floor. This is more likely 
