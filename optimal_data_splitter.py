@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from typing import Tuple
 
 
-class Terminus:
+class OptimalDataSplitter:
     """
     Class for optimally splitting data into train, validation, and test sets for machine learning problems
     """
