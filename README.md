@@ -1,32 +1,32 @@
-# Terminus
+# Optimal_data_splitter
 
 ## Overview
-Terminus is a Python package created to enable data scientists to quickly and easily split their data into training, 
+Optimal_data_splitter is a Python package created to enable data scientists to quickly and easily split their data into training, 
 validation, and test data in an optimal manner. Many data scientists will split their data randomly, potentially with 
 shuffling or stratification. Even with these approaches it is common for data to not be well distributed across all 
 features or factors that may negatively influence the ability to adequately validate/test a model prior to deployment. 
-Terminus resolves this by searching through many possible combinations of data splits and determining which one is the 
+Optimal_data_splitter resolves this by searching through many possible combinations of data splits and determining which one is the 
 closest to the target split distribution.
 
 ## Installation
-1. Copy the terminus-version.number-py3-none-any.whl file into the local directory where your virtual environment (venv)
+1. Copy the optimal-data-splitter-version.number-py3-none-any.whl file into the local directory where your virtual environment (venv)
 is located.
 1. Enter the venv
-1. `pip install ./terminus-version.number-py3-none-any.whl` will install Terminus and all of its dependencies
+1. `pip install ./optimal-data-splitter-version.number-py3-none-any.whl` will install optimal_data_splitter and all of its dependencies
 
 ## Usage
-1. Import the Terminus class using `from terminus import Terminus`
+1. Import the OptimalDataSplitter class using `from optimal_data_splitter import OptimalDataSplitter`
 1. Splitting data using default settings can be done with:
-   1. `terminus = Terminus(data=input_data)`
-   1. `out = terminus.split_data()`
+   1. `splitter = OptimalDataSplitter(data=input_data)`
+   1. `out = splitter.split_data()`
    1. The output data will have an additional `split` column that contains 'train', 'val', or 'test' labels.
    1. If this is done in a Jupyter notebook it will generate a couple of plots
 1. Multiple parameters can be configured (see Configuration section) and included in the data split via the optional 
-config input to `Terminus()`
-   1.  `terminus = Terminus(data=input_data, config=config_dict)`
+config input to `OptimalDataSplitter()`
+   1.  `splitter = OptimalDataSplitter(data=input_data, config=config_dict)`
 
 ## Data Input Format
-1. Terminus expects the data input to be a Pandas DataFrame with the following restrictions:
+1. Optimal_data_splitter expects the data input to be a Pandas DataFrame with the following restrictions:
    1. The first column must be title 'id'
    1. The 'id' column must have a unique identifier for each row. An example would be a filename or a uuid.
    1. All other columns must only contain numerical (float or int) data
@@ -41,7 +41,7 @@ config input to `Terminus()`
       information (e.g. clearly separate bimodal distribution).
 
 ## Configuration
-The config attribute in Terminus expects a dictionary of optional configuration parameters. Anywhere from zero to all 
+The config attribute in optimal_data_splitter expects a dictionary of optional configuration parameters. Anywhere from zero to all 
 of these parameters can be changed for any particular run. The available parameters to configure and their default 
 values are:
 1. val_percent = 0.1; Portion of data to place in validation set (val). Must be between 0 and 1.
@@ -66,14 +66,14 @@ The below is an example using some sample data with 6 features (f1 to f6) and 30
 
 ```commandline
 import pandas as pd
-from terminus import Terminus
+from optimal_data_splitter import OptimalDataSplitter
 
 input_data = pd.read_csv('./sample_data.csv')
 
 config = {'num_iterations': 5000}
 
-terminus = Terminus(data=input_data, config=config)
-out = terminus.split_data()
+splitter = OptimalDataSplitter(data=input_data, config=config)
+out = splitter.split_data()
 
 out.head()
 ```
