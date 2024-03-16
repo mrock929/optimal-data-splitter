@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "terminus"
+name = "optimal-data-splitter"
 version = "0.1.0"
 description = "Data splitting package"
 authors = ["Matthew Rockwood"]

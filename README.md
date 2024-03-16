@@ -9,10 +9,10 @@ Optimal_data_splitter resolves this by searching through many possible combinati
 closest to the target split distribution.
 
 ## Installation
-1. Copy the optimal-data-splitter-version.number-py3-none-any.whl file into the local directory where your virtual environment (venv)
+1. Copy the optimal_data_splitter-version.number-py3-none-any.whl file into the local directory where your virtual environment (venv)
 is located.
 1. Enter the venv
-1. `pip install ./optimal-data-splitter-version.number-py3-none-any.whl` will install optimal_data_splitter and all of its dependencies
+1. `pip install ./optimal_data_splitter-version.number-py3-none-any.whl` will install optimal_data_splitter and all of its dependencies
 
 ## Usage
 1. Import the OptimalDataSplitter class using `from optimal_data_splitter import OptimalDataSplitter`
