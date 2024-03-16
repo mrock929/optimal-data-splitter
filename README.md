@@ -59,7 +59,8 @@ increasing the num_iterations parameter. Note that this will increase runtime.
 data limited, something like 60/20/20 is better.
 
 ## Example
-The below is an example using some sample data with 6 features (f1 to f6) and 30 files (file1 to file30). 
+The below is an example using some sample data with 6 features (f1 to f6) and 30 files (file1 to file30). This data can 
+be obtained from the repo at https://github.com/mrock929/optimal-data-splitter.
 
 ```commandline
 import pandas as pd
