@@ -78,7 +78,7 @@ out = terminus.split_data()
 out.head()
 ```
 ### Sample output
-![](./sample_out.png)
+![](./sample_out.PNG)
 
 ### L2 plot
 ![](./l2_results_example.png)
