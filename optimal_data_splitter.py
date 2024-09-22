@@ -3,6 +3,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 from typing import Tuple
+from copy import deepcopy
 
 
 class OptimalDataSplitter:
@@ -26,13 +27,14 @@ class OptimalDataSplitter:
         self.val_percent = 0.1  # Minimum supported is 0.001 or 0.1% of the data
         self.test_percent = 0.1  # Minimum supported is 0.001 or 0.1% of the data
         self.num_iterations = 1000  # Number of iterations to randomly check in each split, recommend at least 1000
+        self.split_cols = None
         self.save_output = True  # Set True to save output dataframe and plots to file
         self.output_path = './'
         self.results_filename = 'split_data.csv'
         self.l2_plot_filename = 'l2_results.png'
         self.results_plot_filename = 'results.png'
 
-        # TODO add ability to hold out specific files for test/val, ignore or only use specific columns
+        # TODO add ability to hold out specific files for test/val (test_ids, val_ids)
         # TODO always update readme if adding any new configs
         # TODO If config gets more complicated, save config to file as results_filename + _config.yaml or .txt
 
@@ -127,16 +129,20 @@ class OptimalDataSplitter:
                 else:
                     setattr(self, k, v)
 
+        # Keep the id col for splitting
+        if self.split_cols is not None:
+            self.split_cols.insert(0, 'id')
+
     def check_config(self) -> None:
         """
         Check that all config parameters are in valid ranges and have valid types
         """
 
-        if self.val_percent < 0.0 or self.val_percent > 1.0:
-            raise ValueError(f"val_percent must be between 0.0 and 1.0. Current value = {self.val_percent}")
+        if self.val_percent < 0.001 or self.val_percent > 1.0:
+            raise ValueError(f"val_percent must be between 0.001 and 1.0. Current value = {self.val_percent}")
 
-        if self.test_percent < 0.0 or self.test_percent > 1.0:
-            raise ValueError(f"test_percent must be between 0.0 and 1.0. Current value = {self.test_percent}")
+        if self.test_percent < 0.001 or self.test_percent > 1.0:
+            raise ValueError(f"test_percent must be between 0.001 and 1.0. Current value = {self.test_percent}")
 
         if self.num_iterations < 1:
             raise ValueError(f"num_iterations must be a positive number. Current value = {self.num_iterations}")
@@ -146,6 +152,9 @@ class OptimalDataSplitter:
 
         if type(self.save_output) != bool:
             raise TypeError(f"save_output must be a boolean. Current value = {self.save_output}")
+        
+        if self.split_cols is not None and len(self.split_cols) < 1:
+            raise ValueError(f"split_cols must have at least one column name within a list or be None")
 
     def perform_split(self, data: pd.DataFrame, test_size: float, is_test: bool) -> Tuple[pd.DataFrame, list, int]:
         """
@@ -161,11 +170,15 @@ class OptimalDataSplitter:
 
         """
 
-        # Only split train data if test set potentially already exists
+        # If test set already exists, only split the remaining training data into train and val
         if 'split' in data.columns:
             data2 = data.loc[data['split'] == 'train'].drop(columns=['split'])
         else:
             data2 = data
+
+        # If user specified columns to split on, only consider those
+        if self.split_cols is not None:
+            data2 = deepcopy(data2[self.split_cols])
 
         l2_norm_vals = []
 
@@ -182,8 +195,8 @@ class OptimalDataSplitter:
             norm_data = []
             for col in data2.iloc[:, 1:].columns:
                 norm_data.append(y[col].sum() / (X[col].sum() + y[col].sum()) - test_size)
-            l2_val = np.linalg.norm(norm_data)
-            l2_norm_vals.append(l2_val)  # Defaults to L2 norm for vectors
+            l2_val = np.linalg.norm(norm_data)  # Defaults to L2 norm for vectors
+            l2_norm_vals.append(l2_val)
 
             if l2_val < best_l2:
                 best_index = i
@@ -198,6 +211,9 @@ class OptimalDataSplitter:
 
         data2['split'] = 'train'
         data2.loc[data2['id'].isin(y_best['id']), 'split'] = test_label
+
+        if 'split' not in data.columns:
+            data['split'] = 'train'
 
         # Move updated values back into input data
         data.update(data2)

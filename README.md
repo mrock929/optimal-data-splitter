@@ -45,6 +45,7 @@ values are:
 1. test_percent = 0.1; Portion of data to place in test set. Must be between 0 and 1.
 1. num_iterations = 1000; Number of iterations to randomly check in each split. It is not recommended to decrease this 
 number below 1000.
+1. splits_cols = None; Specific columns to include in the data split calculation. None will include all columns except id. A list of column names will result in only those columns being considered. Use this to exclude non-numeric columns from the calculation.
 1. save_output = True; If True then save the resulting data split and plots to file. Set to False to avoid saving 
 anything to file.
 1. output_path = './'; Set the path to the directory to save the results and plot if save_output is True.
